@@ -1,136 +1,97 @@
--- Steal a Brainrot - Ultra RGB Outline ESP
--- RGB حواف فقط | ظلال واقعية | Pixel Perfect | أنيميشن سلس
+-- Steal a Brainrot - Advanced Animated ESP
+-- خط أسود وأبيض متحرك | Toggle ثابت بعد الموت | أنيميشن خرافي
 
 local Players = game:GetService("Players")
 local TweenService = game:GetService("TweenService")
 local RunService = game:GetService("RunService")
 local LocalPlayer = Players.LocalPlayer
 
--- قائمة كاملة بجميع Secret Brainrots
+-- قائمة Secret Brainrots
 local SecretBrainrots = {
-    "La Vacca Saturno Saturnita",
-    "Bisonte Giuppitere",
-    "Blackhole Goat",
-    "Agarrini Ia Palini",
-    "Chachechi",
-    "Karkerkar Kurkur",
-    "Los Tortus",
-    "Los Matteos",
-    "Sammyni Spyderini",
-    "Trenostruzzo Turbo 4000",
-    "Chimpanzini Spiderini",
-    "Boatito Auratito",
-    "Fragola La La La",
-    "Dul Dul Dul",
-    "Frankentteo",
-    "Karker Sahur",
-    "Torrtuginni Dragonfrutini",
-    "Los Tralaleritos",
-    "Zombie Tralala",
-    "La Cucaracha",
-    "Vulturino Skeletono",
-    "Guerriro Digitale",
-    "Extinct Tralalero",
-    "Yess My Examine",
-    "Extinct Matteo",
-    "Las Tralaleritas",
-    "Las Vaquitas Saturnitas",
-    "Job Job Job Sahur",
-    "Los Karkeritos",
-    "Graipuss Medussi",
-    "La Vacca Jacko Linterino",
-    "Los Spyderinis",
-    "Perrito Burrito",
-    "Los Jobcitos",
-    "Nooo My Hotspot",
-    "Pot Hotspot",
-    "Noo My Examine",
-    "La Sahur Combinasion",
-    "To To To Sahur",
-    "Horegini Boom",
-    "Quesadilla Crocodila",
-    "Chicleteira Bicicleteira",
-    "Spaghetti Tualetti",
-    "Esok Sekolah",
-    "Chicleteirina Bicicleteirina",
-    "Los Nooo My Hotspotsitos",
-    "La Grande Combinassion",
-    "Rang Ring Bus",
-    "Los Chicleteiras",
-    "67",
-    "Mariachi Corazoni",
-    "Los Combinasionas",
-    "Tacorita Bicicleta",
-    "Nuclearo Dinosauro",
-    "Las Sis",
-    "La Karkerkar Combinasion",
-    "Chillin Chili",
-    "Money Money Puggy",
-    "Celularcini Viciosini",
-    "Los Mobilis",
-    "Los 67",
-    "Mieteteira Bicicleteira",
-    "La Spooky Grande",
-    "Los Hotspositos",
-    "Tralalalaledon",
-    "La Extinct Grande Combinasion",
-    "Los Primos",
-    "Eviledon",
-    "Los Tacoritas",
-    "Tang Tang Kelentang",
-    "Ketupat Kepat",
-    "Los Bros",
-    "Tictac Sahur",
-    "La Supreme Combinasion",
-    "Ketchuru and Masturu",
-    "Garama and Madundung",
-    "Spooky and Pumpky",
-    "La Secret Combinasion",
-    "Burguro and Fryuro",
-    "Dragon Cannelloni",
+    "La Vacca Saturno Saturnita", "Bisonte Giuppitere", "Blackhole Goat",
+    "Agarrini Ia Palini", "Chachechi", "Karkerkar Kurkur", "Los Tortus",
+    "Los Matteos", "Sammyni Spyderini", "Trenostruzzo Turbo 4000",
+    "Chimpanzini Spiderini", "Boatito Auratito", "Fragola La La La",
+    "Dul Dul Dul", "Frankentteo", "Karker Sahur", "Torrtuginni Dragonfrutini",
+    "Los Tralaleritos", "Zombie Tralala", "La Cucaracha", "Vulturino Skeletono",
+    "Guerriro Digitale", "Extinct Tralalero", "Yess My Examine", "Extinct Matteo",
+    "Las Tralaleritas", "Las Vaquitas Saturnitas", "Job Job Job Sahur",
+    "Los Karkeritos", "Graipuss Medussi", "La Vacca Jacko Linterino",
+    "Los Spyderinis", "Perrito Burrito", "Los Jobcitos", "Nooo My Hotspot",
+    "Pot Hotspot", "Noo My Examine", "La Sahur Combinasion", "To To To Sahur",
+    "Horegini Boom", "Quesadilla Crocodila", "Chicleteira Bicicleteira",
+    "Spaghetti Tualetti", "Esok Sekolah", "Chicleteirina Bicicleteirina",
+    "Los Nooo My Hotspotsitos", "La Grande Combinassion", "Rang Ring Bus",
+    "Los Chicleteiras", "67", "Mariachi Corazoni", "Los Combinasionas",
+    "Tacorita Bicicleta", "Nuclearo Dinosauro", "Las Sis", "La Karkerkar Combinasion",
+    "Chillin Chili", "Money Money Puggy", "Celularcini Viciosini", "Los Mobilis",
+    "Los 67", "Mieteteira Bicicleteira", "La Spooky Grande", "Los Hotspositos",
+    "Tralalalaledon", "La Extinct Grande Combinasion", "Los Primos", "Eviledon",
+    "Los Tacoritas", "Tang Tang Kelentang", "Ketupat Kepat", "Los Bros",
+    "Tictac Sahur", "La Supreme Combinasion", "Ketchuru and Masturu",
+    "Garama and Madundung", "Spooky and Pumpky", "La Secret Combinasion",
+    "Burguro and Fryuro", "Dragon Cannelloni",
 }
 
--- تحويل إلى Set
 local SecretSet = {}
 for _, name in ipairs(SecretBrainrots) do
     SecretSet[name] = true
 end
 
--- وظيفة HSV إلى RGB
-local function HSVtoRGB(h, s, v)
-    local r, g, b
-    local i = math.floor(h * 6)
-    local f = h * 6 - i
-    local p = v * (1 - s)
-    local q = v * (1 - f * s)
-    local t = v * (1 - (1 - f) * s)
-    i = i % 6
-    
-    if i == 0 then r, g, b = v, t, p
-    elseif i == 1 then r, g, b = q, v, p
-    elseif i == 2 then r, g, b = p, v, t
-    elseif i == 3 then r, g, b = p, q, v
-    elseif i == 4 then r, g, b = t, p, v
-    elseif i == 5 then r, g, b = v, p, q
-    end
-    
-    return Color3.fromRGB(r * 255, g * 255, b * 255)
-end
+-- متغيرات التحكم
+local isESPActive = true
+local animationTime = 0
 
-local rgbTime = 0
-
--- وظيفة إنشاء ظل واقعي تحت المجسم
-local function CreateRealisticShadow(model)
+-- وظيفة إنشاء خط للاعب من بعيد
+local function CreateTracerLine(model)
+    local character = LocalPlayer.Character
+    if not character then return end
+    
+    local humanoidRootPart = character:FindFirstChild("HumanoidRootPart")
+    if not humanoidRootPart then return end
+    
     local primaryPart = model.PrimaryPart or model:FindFirstChildWhichIsA("BasePart")
     if not primaryPart then return end
     
-    -- حذف الظل القديم
-    local oldShadow = model:FindFirstChild("RealisticShadow")
-    if oldShadow then
-        oldShadow:Destroy()
+    -- حذف الخط القديم
+    local oldLine = model:FindFirstChild("TracerLine")
+    if oldLine then
+        oldLine:Destroy()
     end
     
-    -- إنشاء Part للظل
+    -- إنشاء Beam للخط
+    local att0 = Instance.new("Attachment")
+    att0.Name = "TracerAtt0"
+    att0.Parent = humanoidRootPart
+    
+    local att1 = Instance.new("Attachment")
+    att1.Name = "TracerAtt1"
+    att1.Parent = primaryPart
+    
+    local beam = Instance.new("Beam")
+    beam.Name = "TracerLine"
+    beam.Attachment0 = att0
+    beam.Attachment1 = att1
+    beam.Width0 = 0.3
+    beam.Width1 = 0.3
+    beam.FaceCamera = true
+    beam.Color = ColorSequence.new(Color3.fromRGB(0, 0, 0))
+    beam.Transparency = NumberSequence.new(0.3)
+    beam.LightEmission = 0.5
+    beam.LightInfluence = 0
+    beam.Parent = model
+    
+    return beam, att0, att1
+end
+
+-- وظيفة إنشاء ظل واقعي
+local function CreateShadow(model)
+    local primaryPart = model.PrimaryPart or model:FindFirstChildWhichIsA("BasePart")
+    if not primaryPart then return end
+    
+    local oldShadow = model:FindFirstChild("RealisticShadow")
+    if oldShadow then oldShadow:Destroy() end
+    
     local shadow = Instance.new("Part")
     shadow.Name = "RealisticShadow"
     shadow.Size = Vector3.new(primaryPart.Size.X * 1.2, 0.1, primaryPart.Size.Z * 1.2)
@@ -141,42 +102,22 @@ local function CreateRealisticShadow(model)
     shadow.Color = Color3.fromRGB(0, 0, 0)
     shadow.Parent = model
     
-    -- إنشاء Decal للظل
-    local decal = Instance.new("Decal")
-    decal.Texture = "rbxasset://textures/face.png"
-    decal.Face = Enum.NormalId.Top
-    decal.Transparency = 0.7
-    decal.Color3 = Color3.fromRGB(0, 0, 0)
-    decal.Parent = shadow
-    
-    -- تحديث موضع الظل
-    local function updateShadowPosition()
-        if shadow and shadow.Parent and primaryPart and primaryPart.Parent then
-            local rayOrigin = primaryPart.Position
-            local rayDirection = Vector3.new(0, -100, 0)
-            
-            local raycastParams = RaycastParams.new()
-            raycastParams.FilterDescendantsInstances = {model}
-            raycastParams.FilterType = Enum.RaycastFilterType.Exclude
-            
-            local rayResult = workspace:Raycast(rayOrigin, rayDirection, raycastParams)
-            
-            if rayResult then
-                shadow.Position = rayResult.Position + Vector3.new(0, 0.05, 0)
-                
-                -- تغيير شفافية الظل حسب المسافة
-                local distance = (primaryPart.Position - rayResult.Position).Magnitude
-                shadow.Transparency = math.clamp(0.3 + (distance / 50), 0.3, 0.95)
-            else
-                shadow.Position = primaryPart.Position - Vector3.new(0, primaryPart.Size.Y/2 + 0.1, 0)
-            end
-        end
-    end
-    
-    -- تحديث الظل بشكل مستمر
     task.spawn(function()
-        while shadow and shadow.Parent do
-            updateShadowPosition()
+        while shadow and shadow.Parent and isESPActive do
+            if primaryPart and primaryPart.Parent then
+                local rayOrigin = primaryPart.Position
+                local rayDirection = Vector3.new(0, -100, 0)
+                local raycastParams = RaycastParams.new()
+                raycastParams.FilterDescendantsInstances = {model}
+                raycastParams.FilterType = Enum.RaycastFilterType.Exclude
+                local rayResult = workspace:Raycast(rayOrigin, rayDirection, raycastParams)
+                
+                if rayResult then
+                    shadow.Position = rayResult.Position + Vector3.new(0, 0.05, 0)
+                    local distance = (primaryPart.Position - rayResult.Position).Magnitude
+                    shadow.Transparency = math.clamp(0.3 + (distance / 50), 0.3, 0.95)
+                end
+            end
             task.wait(0.1)
         end
     end)
@@ -184,160 +125,279 @@ local function CreateRealisticShadow(model)
     return shadow
 end
 
--- وظيفة إنشاء Highlight RGB للحواف فقط
-local function CreatePixelPerfectRGBOutline(model)
+-- وظيفة إنشاء Outline متحرك (يمين أسود، يسار أبيض)
+local function CreateAnimatedOutline(model)
     if not model:IsA("Model") then return end
     if not SecretSet[model.Name] then return end
     
-    -- حذف Highlight القديم
     local oldHighlight = model:FindFirstChildOfClass("Highlight")
-    if oldHighlight then
-        oldHighlight:Destroy()
-    end
+    if oldHighlight then oldHighlight:Destroy() end
     
-    -- إنشاء Highlight جديد - حواف فقط
     local highlight = Instance.new("Highlight")
-    highlight.Name = "PixelRGBOutline"
+    highlight.Name = "AnimatedOutline"
     highlight.FillColor = Color3.fromRGB(255, 255, 255)
-    highlight.OutlineColor = Color3.fromRGB(255, 0, 0)
-    highlight.FillTransparency = 1 -- شفاف تماماً (بدون Fill)
-    highlight.OutlineTransparency = 0 -- حواف واضحة
+    highlight.OutlineColor = Color3.fromRGB(0, 0, 0)
+    highlight.FillTransparency = 1
+    highlight.OutlineTransparency = 0
     highlight.DepthMode = Enum.HighlightDepthMode.AlwaysOnTop
     highlight.Parent = model
     
-    -- إنشاء الظل الواقعي
-    CreateRealisticShadow(model)
-    
-    -- إنشاء Beam للتأثيرات الإضافية
-    local primaryPart = model.PrimaryPart or model:FindFirstChildWhichIsA("BasePart")
-    if primaryPart then
-        -- حذف Beam القديم
-        for _, child in pairs(primaryPart:GetChildren()) do
-            if child:IsA("Beam") then
-                child:Destroy()
-            end
-        end
-        
-        -- إنشاء Attachment للـ Beam
-        local att0 = Instance.new("Attachment")
-        att0.Name = "RGBAttachment0"
-        att0.Position = Vector3.new(0, primaryPart.Size.Y/2, 0)
-        att0.Parent = primaryPart
-        
-        local att1 = Instance.new("Attachment")
-        att1.Name = "RGBAttachment1"
-        att1.Position = Vector3.new(0, -primaryPart.Size.Y/2, 0)
-        att1.Parent = primaryPart
-        
-        -- إنشاء Beam
-        local beam = Instance.new("Beam")
-        beam.Name = "RGBBeam"
-        beam.Attachment0 = att0
-        beam.Attachment1 = att1
-        beam.FaceCamera = true
-        beam.Width0 = 0.5
-        beam.Width1 = 0.5
-        beam.Color = ColorSequence.new(Color3.fromRGB(255, 0, 0))
-        beam.Transparency = NumberSequence.new(0.3)
-        beam.LightEmission = 1
-        beam.LightInfluence = 0
-        beam.Parent = primaryPart
-        
-        -- أنيميشن نبض سلس للـ Beam
-        task.spawn(function()
-            while beam and beam.Parent do
-                local tweenInfo = TweenInfo.new(2, Enum.EasingStyle.Sine, Enum.EasingDirection.InOut, -1, true)
-                local goal = {Width0 = 1, Width1 = 1}
-                local tween = TweenService:Create(beam, tweenInfo, goal)
-                tween:Play()
-                task.wait(0.1)
-            end
-        end)
-    end
+    CreateShadow(model)
+    CreateTracerLine(model)
     
     return highlight
 end
 
--- وظيفة تحديث RGB بشكل سلس جداً
-local function UpdateAllRGBOutlines()
-    local workspace = game:GetService("Workspace")
+-- وظيفة تحديث الأنيميشن (أسود ↔ أبيض كل 3 ثواني)
+local function UpdateAnimation()
+    if not isESPActive then return end
+    
+    local phase = math.floor(animationTime / 3) % 2
+    local targetColor = phase == 0 and Color3.fromRGB(0, 0, 0) or Color3.fromRGB(255, 255, 255)
     
     for _, descendant in pairs(workspace:GetDescendants()) do
-        if descendant:IsA("Highlight") and descendant.Name == "PixelRGBOutline" then
-            local hue = (rgbTime % 360) / 360
-            local rgbColor = HSVtoRGB(hue, 1, 1)
-            
-            -- تحديث لون الحواف
-            descendant.OutlineColor = rgbColor
-            
-            -- تحديث لون الـ Beam
-            local parent = descendant.Parent
-            if parent then
-                local primaryPart = parent.PrimaryPart or parent:FindFirstChildWhichIsA("BasePart")
-                if primaryPart then
-                    local beam = primaryPart:FindFirstChild("RGBBeam")
-                    if beam then
-                        beam.Color = ColorSequence.new(rgbColor)
-                    end
-                end
-            end
+        if descendant:IsA("Highlight") and descendant.Name == "AnimatedOutline" then
+            local tweenInfo = TweenInfo.new(1.5, Enum.EasingStyle.Sine, Enum.EasingDirection.InOut)
+            TweenService:Create(descendant, tweenInfo, {OutlineColor = targetColor}):Play()
+        end
+        
+        if descendant:IsA("Beam") and descendant.Name == "TracerLine" then
+            local tweenInfo = TweenInfo.new(1.5, Enum.EasingStyle.Sine, Enum.EasingDirection.InOut)
+            TweenService:Create(descendant, tweenInfo, {
+                Color = ColorSequence.new(targetColor)
+            }):Play()
         end
     end
 end
 
--- تطبيق ESP على الكل
+-- تطبيق ESP
 local function ApplyESPToAll()
-    local workspace = game:GetService("Workspace")
-    
     for _, model in pairs(workspace:GetDescendants()) do
         if model:IsA("Model") and SecretSet[model.Name] then
             pcall(function()
-                CreatePixelPerfectRGBOutline(model)
+                CreateAnimatedOutline(model)
             end)
         end
     end
 end
 
+-- حذف ESP
+local function RemoveAllESP()
+    for _, descendant in pairs(workspace:GetDescendants()) do
+        if descendant.Name == "AnimatedOutline" or 
+           descendant.Name == "RealisticShadow" or 
+           descendant.Name == "TracerLine" or
+           descendant.Name == "TracerAtt0" or
+           descendant.Name == "TracerAtt1" then
+            pcall(function() descendant:Destroy() end)
+        end
+    end
+end
+
+-- إنشاء Toggle دائري صغير مع أنيميشن خرافي
+local function CreateToggle()
+    local screenGui = Instance.new("ScreenGui")
+    screenGui.Name = "BrainrotESPToggle"
+    screenGui.ResetOnSpawn = false
+    screenGui.IgnoreGuiInset = true
+    screenGui.Parent = game.CoreGui
+    
+    -- الزر الدائري الصغير
+    local toggle = Instance.new("ImageButton")
+    toggle.Name = "Toggle"
+    toggle.Size = UDim2.new(0, 60, 0, 60)
+    toggle.Position = UDim2.new(0.95, -70, 0.5, -30)
+    toggle.BackgroundColor3 = Color3.fromRGB(20, 20, 20)
+    toggle.BorderSizePixel = 0
+    toggle.AutoButtonColor = false
+    toggle.Parent = screenGui
+    
+    local corner = Instance.new("UICorner")
+    corner.CornerRadius = UDim.new(1, 0)
+    corner.Parent = toggle
+    
+    -- حدود متوهجة
+    local stroke = Instance.new("UIStroke")
+    stroke.Color = Color3.fromRGB(0, 255, 100)
+    stroke.Thickness = 3
+    stroke.ApplyStrokeMode = Enum.ApplyStrokeMode.Border
+    stroke.Parent = toggle
+    
+    -- الأيقونة
+    local icon = Instance.new("TextLabel")
+    icon.Size = UDim2.new(1, 0, 1, 0)
+    icon.BackgroundTransparency = 1
+    icon.Text = "👁"
+    icon.TextColor3 = Color3.fromRGB(255, 255, 255)
+    icon.Font = Enum.Font.GothamBold
+    icon.TextSize = 28
+    icon.Parent = toggle
+    
+    -- ظل
+    local shadow = Instance.new("Frame")
+    shadow.Name = "Shadow"
+    shadow.BackgroundColor3 = Color3.fromRGB(0, 0, 0)
+    shadow.BackgroundTransparency = 0.7
+    shadow.Position = UDim2.new(0, 3, 0, 3)
+    shadow.Size = UDim2.new(1, 0, 1, 0)
+    shadow.ZIndex = 0
+    shadow.Parent = toggle
+    
+    local shadowCorner = Instance.new("UICorner")
+    shadowCorner.CornerRadius = UDim.new(1, 0)
+    shadowCorner.Parent = shadow
+    
+    -- أنيميشن نبض للزر
+    task.spawn(function()
+        while toggle and toggle.Parent do
+            local tween1 = TweenService:Create(toggle, TweenInfo.new(0.8, Enum.EasingStyle.Sine, Enum.EasingDirection.InOut), {
+                Size = UDim2.new(0, 65, 0, 65)
+            })
+            tween1:Play()
+            tween1.Completed:Wait()
+            
+            local tween2 = TweenService:Create(toggle, TweenInfo.new(0.8, Enum.EasingStyle.Sine, Enum.EasingDirection.InOut), {
+                Size = UDim2.new(0, 60, 0, 60)
+            })
+            tween2:Play()
+            tween2.Completed:Wait()
+        end
+    end)
+    
+    -- أنيميشن دوران للأيقونة
+    task.spawn(function()
+        while icon and icon.Parent do
+            local tween = TweenService:Create(icon, TweenInfo.new(4, Enum.EasingStyle.Linear), {
+                Rotation = 360
+            })
+            tween:Play()
+            tween.Completed:Wait()
+            icon.Rotation = 0
+        end
+    end)
+    
+    -- أنيميشن توهج الحدود
+    task.spawn(function()
+        while stroke and stroke.Parent do
+            local tween1 = TweenService:Create(stroke, TweenInfo.new(1, Enum.EasingStyle.Sine, Enum.EasingDirection.InOut), {
+                Thickness = 5
+            })
+            tween1:Play()
+            tween1.Completed:Wait()
+            
+            local tween2 = TweenService:Create(stroke, TweenInfo.new(1, Enum.EasingStyle.Sine, Enum.EasingDirection.InOut), {
+                Thickness = 3
+            })
+            tween2:Play()
+            tween2.Completed:Wait()
+        end
+    end)
+    
+    -- صوت
+    local clickSound = Instance.new("Sound")
+    clickSound.SoundId = "rbxassetid://9118823108"
+    clickSound.Volume = 0.4
+    clickSound.Parent = toggle
+    
+    -- وظيفة الضغط
+    toggle.MouseButton1Click:Connect(function()
+        pcall(function() clickSound:Play() end)
+        isESPActive = not isESPActive
+        
+        -- أنيميشن ضغط
+        TweenService:Create(toggle, TweenInfo.new(0.1), {Size = UDim2.new(0, 50, 0, 50)}):Play()
+        task.wait(0.1)
+        TweenService:Create(toggle, TweenInfo.new(0.1), {Size = UDim2.new(0, 60, 0, 60)}):Play()
+        
+        if isESPActive then
+            icon.Text = "👁"
+            TweenService:Create(stroke, TweenInfo.new(0.3), {Color = Color3.fromRGB(0, 255, 100)}):Play()
+            TweenService:Create(toggle, TweenInfo.new(0.3), {BackgroundColor3 = Color3.fromRGB(20, 20, 20)}):Play()
+            ApplyESPToAll()
+            print("✅ ESP مفعل")
+        else
+            icon.Text = "👁‍🗨"
+            TweenService:Create(stroke, TweenInfo.new(0.3), {Color = Color3.fromRGB(255, 50, 50)}):Play()
+            TweenService:Create(toggle, TweenInfo.new(0.3), {BackgroundColor3 = Color3.fromRGB(50, 20, 20)}):Play()
+            RemoveAllESP()
+            print("⛔ ESP متوقف")
+        end
+    end)
+    
+    -- السحب بحرية
+    local dragging = false
+    local dragInput, mousePos, framePos
+    
+    toggle.InputBegan:Connect(function(input)
+        if input.UserInputType == Enum.UserInputType.MouseButton1 or input.UserInputType == Enum.UserInputType.Touch then
+            dragging = true
+            mousePos = input.Position
+            framePos = toggle.Position
+            TweenService:Create(toggle, TweenInfo.new(0.2), {Size = UDim2.new(0, 55, 0, 55)}):Play()
+        end
+    end)
+    
+    toggle.InputEnded:Connect(function(input)
+        if input.UserInputType == Enum.UserInputType.MouseButton1 or input.UserInputType == Enum.UserInputType.Touch then
+            dragging = false
+            TweenService:Create(toggle, TweenInfo.new(0.2), {Size = UDim2.new(0, 60, 0, 60)}):Play()
+        end
+    end)
+    
+    game:GetService("UserInputService").InputChanged:Connect(function(input)
+        if dragging and (input.UserInputType == Enum.UserInputType.MouseMovement or input.UserInputType == Enum.UserInputType.Touch) then
+            local delta = input.Position - mousePos
+            toggle.Position = UDim2.new(
+                framePos.X.Scale,
+                framePos.X.Offset + delta.X,
+                framePos.Y.Scale,
+                framePos.Y.Offset + delta.Y
+            )
+        end
+    end)
+end
+
 -- مراقبة Brainrots الجديدة
 workspace.DescendantAdded:Connect(function(descendant)
-    if descendant:IsA("Model") and SecretSet[descendant.Name] then
-        task.wait(0.15)
+    if isESPActive and descendant:IsA("Model") and SecretSet[descendant.Name] then
+        task.wait(0.1)
         pcall(function()
-            CreatePixelPerfectRGBOutline(descendant)
+            CreateAnimatedOutline(descendant)
         end)
     end
 end)
 
--- حلقة RGB السلسة - 60 FPS
-RunService.RenderStepped:Connect(function(deltaTime)
-    rgbTime = rgbTime + (deltaTime * 100) -- سرعة RGB
-    UpdateAllRGBOutlines()
-end)
-
--- تطبيق ESP عند البدء
-task.spawn(function()
-    task.wait(1)
-    ApplyESPToAll()
-    print("════════════════════════════════")
-    print("🌈 Pixel Perfect RGB Outline ESP")
-    print("✨ " .. #SecretBrainrots .. " Secrets Loaded")
-    print("🎨 Realistic Shadows Active")
-    print("⚡ Smooth 60 FPS Animation")
-    print("════════════════════════════════")
-end)
-
--- إعادة تطبيق كل 10 ثواني
-task.spawn(function()
-    while task.wait(10) do
-        pcall(ApplyESPToAll)
+-- حلقة الأنيميشن الرئيسية
+RunService.Heartbeat:Connect(function(deltaTime)
+    if isESPActive then
+        animationTime = animationTime + deltaTime
+        if animationTime >= 3 then
+            UpdateAnimation()
+            animationTime = 0
+        end
     end
 end)
 
--- تنظيف عند المغادرة
-LocalPlayer.CharacterRemoving:Connect(function()
-    for _, descendant in pairs(workspace:GetDescendants()) do
-        if descendant.Name == "PixelRGBOutline" or descendant.Name == "RealisticShadow" or descendant.Name == "RGBBeam" then
-            descendant:Destroy()
+-- تشغيل السكربت
+task.spawn(function()
+    task.wait(1)
+    CreateToggle()
+    ApplyESPToAll()
+    
+    print("════════════════════════════════")
+    print("⚫⚪ Animated Black & White ESP")
+    print("✨ " .. #SecretBrainrots .. " Secrets")
+    print("📍 خط من اللاعب للـ Brainrot")
+    print("🔄 تحديث كل 3 ثواني")
+    print("🎮 Toggle يبقى بعد الموت")
+    print("════════════════════════════════")
+end)
+
+-- تحديث ESP كل 5 ثواني
+task.spawn(function()
+    while task.wait(5) do
+        if isESPActive then
+            pcall(ApplyESPToAll)
         end
     end
 end)
